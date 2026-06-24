@@ -4,8 +4,10 @@ import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -37,34 +39,91 @@ fun BmiCalculatorScreen(
     modifier: Modifier = Modifier,
     viewModel: CalculatorViewModel
 ) {
-    val bmiResult by viewModel.bmiResult.collectAsState()
-    val cardModifier = Modifier
-        .fillMaxWidth()
-        .border(
-            width = 1.dp,
-            color = colorResource(R.color.white_30),
-            shape = RoundedCornerShape(16.dp)
-        )
-        .background(
-            color = colorResource(R.color.white_10),
-            shape = RoundedCornerShape(16.dp)
-        )
-        .padding(25.dp, 16.dp)
+    BoxWithConstraints(modifier = modifier) {
+        val isLandscape = maxWidth > maxHeight
 
+        val cardModifier = Modifier
+            .border(
+                width = 1.dp,
+                color = colorResource(R.color.white_30),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .background(
+                color = colorResource(R.color.white_10),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(25.dp, 16.dp)
+        val bmiResult by viewModel.bmiResult.collectAsState()
+
+        if (isLandscape) {
+            LandscapeLayout(
+                cardModifier = cardModifier,
+                bmiResult = bmiResult,
+                onCalculate = { height, weight ->
+                    viewModel.calculateBMI(height, weight)
+                }
+            )
+        } else {
+            PortraitLayout(
+                cardModifier = cardModifier,
+                bmiResult = bmiResult,
+                onCalculate = { height, weight ->
+                    viewModel.calculateBMI(height, weight)
+                }
+            )
+        }
+    }
+
+
+}
+
+@Composable
+fun PortraitLayout(
+    modifier: Modifier = Modifier,
+    cardModifier: Modifier = Modifier,
+    bmiResult: BmiResult?,
+    onCalculate: (Double, Double) -> Unit
+) {
     Column(
         modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         InputFieldCard(
-            modifier = cardModifier,
-            onButtonClicked = { height, weight ->
-                viewModel.calculateBMI(height, weight)
-            }
+            modifier = cardModifier.fillMaxWidth(),
+            onButtonClicked = onCalculate
         )
 
         ResultCard(
-            modifier = cardModifier,
+            modifier = cardModifier.fillMaxWidth(),
+            bmiResult = bmiResult
+        )
+    }
+}
+
+@Composable
+fun LandscapeLayout(
+    modifier: Modifier = Modifier,
+    cardModifier: Modifier = Modifier,
+    bmiResult: BmiResult?,
+    onCalculate: (Double, Double) -> Unit
+) {
+    Row(
+        modifier = modifier.padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        InputFieldCard(
+            modifier = cardModifier
+                .weight(1f)
+                .fillMaxHeight(),
+            onButtonClicked = onCalculate
+        )
+
+        ResultCard(
+            modifier = cardModifier
+                .weight(1f)
+                .fillMaxHeight(),
             bmiResult = bmiResult
         )
     }
