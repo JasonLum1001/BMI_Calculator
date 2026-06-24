@@ -1,26 +1,34 @@
 package com.example.bmicalculator.ui.screen
 
-import android.content.Context
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.bmicalculator.R
+import com.example.bmicalculator.ui.model.BmiResult
 import com.example.bmicalculator.ui.viewmodel.CalculatorViewModel
 import java.util.Locale
 
@@ -30,25 +38,40 @@ fun BmiCalculatorScreen(
     viewModel: CalculatorViewModel
 ) {
     val bmiResult by viewModel.bmiResult.collectAsState()
+    val cardModifier = Modifier
+        .fillMaxWidth()
+        .border(
+            width = 1.dp,
+            color = colorResource(R.color.white_30),
+            shape = RoundedCornerShape(16.dp)
+        )
+        .background(
+            color = colorResource(R.color.white_10),
+            shape = RoundedCornerShape(16.dp)
+        )
+        .padding(25.dp, 16.dp)
 
     Column(
-        modifier = modifier.padding(16.dp),
+        modifier = modifier.padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        InputField(
+        InputFieldCard(
+            modifier = cardModifier,
             onButtonClicked = { height, weight ->
                 viewModel.calculateBMI(height, weight)
             }
         )
 
         ResultCard(
+            modifier = cardModifier,
             bmiResult = bmiResult
         )
     }
 }
 
 @Composable
-private fun InputField(
+private fun InputFieldCard(
     modifier: Modifier = Modifier,
     onButtonClicked: (Double, Double) -> Unit
 ) {
@@ -59,24 +82,24 @@ private fun InputField(
 
     Column(
         modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+        InputRow(
+            label = stringResource(R.string.input_height),
             value = height,
-            onValueChange = { height = it },
-            label = { Text(stringResource(R.string.input_height)) }
+            unit = stringResource(R.string.input_height_unit),
+            onValueChange = { height = it }
         )
 
-        OutlinedTextField(
-            modifier = Modifier.fillMaxWidth(),
+        InputRow(
+            label = stringResource(R.string.input_weight),
             value = weight,
-            onValueChange = { weight = it },
-            label = { Text(stringResource(R.string.input_weight)) }
+            unit = stringResource(R.string.input_weight_unit),
+            onValueChange = { weight = it }
         )
 
-        Button(
-            modifier = Modifier.fillMaxWidth(),
+        CalculateButton(
             onClick = {
                 val weightValue = weight.toDoubleOrNull()
                 val heightValue = height.toDoubleOrNull()
@@ -91,23 +114,88 @@ private fun InputField(
                         R.string.err_message,
                         Toast.LENGTH_SHORT
                     ).show()
-                    return@Button
+                    return@CalculateButton
                 }
                 onButtonClicked(heightValue, weightValue)
             }
-        ) {
-            Text(stringResource(R.string.btn_calculate))
-        }
+        )
+    }
+}
+
+@Composable
+fun InputRow(
+    modifier: Modifier = Modifier,
+    label: String,
+    value: String,
+    unit: String,
+    onValueChange: (String) -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text(
+            modifier = Modifier.weight(2f),
+            text = label
+        )
+
+        TextField(
+            modifier = Modifier.weight(5f),
+            value = value,
+            onValueChange = onValueChange
+        )
+
+        Text(
+            modifier = Modifier.weight(1f),
+            text = unit
+        )
+    }
+}
+
+@Composable
+private fun CalculateButton(
+    onClick: () -> Unit
+) {
+    Button(
+        modifier = Modifier.fillMaxWidth(),
+        colors = ButtonDefaults.buttonColors().copy(
+            containerColor = colorResource(R.color.red),
+            contentColor = colorResource(R.color.white_100)
+        ),
+        onClick = onClick
+    ) {
+        Text(stringResource(R.string.btn_calculate))
     }
 }
 
 @Composable
 fun ResultCard(
     modifier: Modifier = Modifier,
-    bmiResult: Double?
+    bmiResult: BmiResult?
 ) {
     bmiResult?.let {
-        Text(String.format(Locale.US, "%.2f", it))
+        Column(
+            modifier = modifier,
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = String.format(Locale.US, "%.2f", it.bmiValue),
+                color = colorResource(R.color.red),
+                fontSize = 66.sp,
+                textAlign = TextAlign.Center
+            )
+
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = it.bmiCategory.toString(),
+                color = colorResource(R.color.white_80),
+                fontSize = 33.sp,
+                textAlign = TextAlign.Center
+            )
+        }
     }
 }
 
