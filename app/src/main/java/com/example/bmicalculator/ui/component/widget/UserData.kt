@@ -32,8 +32,8 @@ fun UserData(
     weight: Double
 ) {
     val (heightUnit, weightUnit) = when (unitSystem) {
-        BmiUnitSystem.METRIC -> "m" to "kg"
-        BmiUnitSystem.IMPERIAL -> "in" to "lb"
+        BmiUnitSystem.METRIC -> stringResource(R.string.input_height_unit_metric) to stringResource(R.string.input_weight_unit_metric)
+        BmiUnitSystem.IMPERIAL -> stringResource(R.string.input_height_unit_imperial) to stringResource(R.string.input_weight_unit_imperial)
     }
 
     Row(
@@ -75,7 +75,6 @@ private fun UserDataItem(
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,

@@ -13,6 +13,7 @@
     <string name="btn_reset">Reset</string>
     <string name="err_message">"Please enter valid weight and height"</string>
 
+    <string name="result_label">BMI</string>
     <string name="category_underweight">Underweight</string>
     <string name="category_normal">Normal</string>
     <string name="category_overweight">Overweight</string>

@@ -38,7 +38,7 @@ fun BmiIndicator(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "BMI:",
+            text = stringResource(R.string.result_label),
             color = colorResource(R.color.teal_100),
             style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.SemiBold,
