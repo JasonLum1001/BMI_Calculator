@@ -1,8 +1,10 @@
 package com.example.bmicalculator.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.example.bmicalculator.ui.model.BmiCategory
-import com.example.bmicalculator.ui.model.BmiResult
+import com.example.bmicalculator.domain.model.BmiCategory
+import com.example.bmicalculator.domain.model.BmiResult
+import com.example.bmicalculator.domain.model.BmiUnitSystem
+import com.example.bmicalculator.ui.state.BmiResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -11,24 +13,38 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalculatorViewModel  @Inject constructor(): ViewModel() {
-    private val _bmiResult = MutableStateFlow<BmiResult?>(null)
-    val bmiResult: StateFlow<BmiResult?> = _bmiResult.asStateFlow()
 
-    fun calculateBMI(height: Double, weight: Double) {
-        val bmi = weight / (height * height)
+    private val _unitSystem = MutableStateFlow(BmiUnitSystem.METRIC)
+    val unitSystem: StateFlow<BmiUnitSystem> = _unitSystem.asStateFlow()
 
-        _bmiResult.value = BmiResult(
-            bmiValue = bmi,
-            bmiCategory = getBmiCategory(bmi)
-        )
+    private val _bmiResultState = MutableStateFlow<BmiResultState>(BmiResultState.None)
+    val bmiResultState: StateFlow<BmiResultState> = _bmiResultState.asStateFlow()
+
+    fun updateUnitSystem(unitSystem: BmiUnitSystem) {
+        _unitSystem.value = unitSystem
     }
 
-    fun getBmiCategory(bmi: Double): BmiCategory {
-        return when {
-            bmi < 18.5 -> BmiCategory.UNDERWEIGHT
-            bmi < 25.0 -> BmiCategory.NORMAL
-            bmi < 30.0 -> BmiCategory.OVERWEIGHT
-            else -> BmiCategory.OBESE
+    fun resetState() {
+        _bmiResultState.value = BmiResultState.None
+    }
+
+    fun calculateBMI(unitSystem: BmiUnitSystem, height: Double, weight: Double) {
+        _bmiResultState.value = BmiResultState.Loading
+
+        val bmi = when (unitSystem) {
+            BmiUnitSystem.METRIC -> weight / (height * height)
+            BmiUnitSystem.IMPERIAL -> weight * 703 / (height * height)
         }
+
+        val bmiResult = BmiResult(
+            bmiValue = bmi
+        )
+
+        _bmiResultState.value = BmiResultState.Success(
+            unitSystem = unitSystem,
+            height = height,
+            weight = weight,
+            bmiResult = bmiResult
+        )
     }
 }

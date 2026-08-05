@@ -1,9 +1,22 @@
 <resources>
     <string name="app_name">BMI Calculator</string>
+    <string name="app_title">BMI Calculator</string>
+    <string name="input_metric">Metric</string>
+    <string name="input_imperial">Imperial</string>
     <string name="input_height">Height:</string>
-    <string name="input_height_unit">m</string>
+    <string name="input_height_unit_metric">m</string>
+    <string name="input_height_unit_imperial">in</string>
     <string name="input_weight">Weight:</string>
-    <string name="input_weight_unit">kg</string>
+    <string name="input_weight_unit_metric">kg</string>
+    <string name="input_weight_unit_imperial">lb</string>
     <string name="btn_calculate">Calculate</string>
+    <string name="btn_reset">Reset</string>
     <string name="err_message">"Please enter valid weight and height"</string>
+
+    <string name="category_underweight">Underweight</string>
+    <string name="category_normal">Normal</string>
+    <string name="category_overweight">Overweight</string>
+    <string name="category_obese_class_1">Obese Class 1</string>
+    <string name="category_obese_class_2">Obese Class 2</string>
+    <string name="category_obese_class_3">Obese Class 3</string>
 </resources>
