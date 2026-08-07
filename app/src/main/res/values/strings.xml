@@ -10,7 +10,7 @@
     <string name="input_weight_unit_metric">kg</string>
     <string name="input_weight_unit_imperial">lb</string>
     <string name="btn_calculate">Calculate</string>
-    <string name="btn_reset">Reset</string>
+    <string name="btn_retry">Retry</string>
     <string name="err_message">"Please enter valid weight and height"</string>
 
     <string name="result_label">BMI</string>

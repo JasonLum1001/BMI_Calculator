@@ -84,7 +84,8 @@ fun InputFieldCard(
             onValueChange = { weight = it }
         )
 
-        CalculateButton(
+        CommonPrimaryButton(
+            text = stringResource(R.string.btn_calculate),
             onClick = {
                 val input = validateInput(height, weight, unitSystem)
 
@@ -94,7 +95,7 @@ fun InputFieldCard(
                         R.string.err_message,
                         Toast.LENGTH_SHORT
                     ).show()
-                    return@CalculateButton
+                    return@CommonPrimaryButton
                 }
 
                 val (heightValue, weightValue) = input
@@ -151,23 +152,6 @@ fun InputRow(
             modifier = Modifier.width(30.dp),
             text = unit
         )
-    }
-}
-
-@Composable
-private fun CalculateButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    Button(
-        modifier = modifier.fillMaxWidth(),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = colorResource(R.color.teal_90),
-            contentColor = colorResource(R.color.color_text_main)
-        ),
-        onClick = onClick
-    ) {
-        Text(stringResource(R.string.btn_calculate))
     }
 }
 
