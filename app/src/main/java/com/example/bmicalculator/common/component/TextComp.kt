@@ -19,7 +19,7 @@ import com.example.bmicalculator.R
 fun TitleBar(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = colorResource(R.color.white_100)
+    color: Color = colorResource(R.color.color_text_secondary)
 ) {
     Text(
         modifier = modifier
@@ -39,7 +39,7 @@ fun TitleBar(
 fun Heading(
     modifier: Modifier = Modifier,
     text: String,
-    color: Color = colorResource(R.color.white_100)
+    color: Color = colorResource(R.color.color_text_secondary)
 ) {
     Text(
         modifier = modifier

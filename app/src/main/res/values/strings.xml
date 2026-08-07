@@ -20,4 +20,10 @@
     <string name="category_obese_class_1">Obese Class 1</string>
     <string name="category_obese_class_2">Obese Class 2</string>
     <string name="category_obese_class_3">Obese Class 3</string>
+    <string name="category_underweight_range">&lt; 18.5</string>
+    <string name="category_normal_range">18.5 - 24.9</string>
+    <string name="category_overweight_range">25.0 - 29.9</string>
+    <string name="category_obese_class_1_range">30.0 - 34.9</string>
+    <string name="category_obese_class_2_range">35.0 - 39.9</string>
+    <string name="category_obese_class_3_range">≥ 40.0</string>
 </resources>

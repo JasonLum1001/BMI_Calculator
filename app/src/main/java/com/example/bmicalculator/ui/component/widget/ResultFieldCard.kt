@@ -23,13 +23,12 @@ fun ResultFieldCard(
     onReset: () -> Unit
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         val cardModifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp)
             .border(
                 width = 1.dp,
                 color = colorResource(R.color.teal_100),
@@ -39,7 +38,7 @@ fun ResultFieldCard(
                 color = colorResource(R.color.teal_20),
                 shape = RoundedCornerShape(16.dp)
             )
-            .padding(horizontal = 26.dp, vertical = 16.dp)
+            .padding(horizontal = 26.dp, vertical = 12.dp)
 
         UserData(
             modifier = cardModifier,
@@ -49,6 +48,11 @@ fun ResultFieldCard(
         )
 
         BmiIndicator(
+            modifier = cardModifier,
+            bmiResult = state.bmiResult
+        )
+
+        BmiCategoryGroup(
             modifier = cardModifier,
             bmiResult = state.bmiResult
         )

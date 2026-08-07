@@ -138,13 +138,13 @@ fun InputRow(
                 imeAction = ImeAction.Next
             ),
             colors = TextFieldDefaults.colors(
-                focusedTextColor = colorResource(R.color.white_100),
-                unfocusedTextColor = colorResource(R.color.white_100),
+                focusedTextColor = colorResource(R.color.color_text_secondary),
+                unfocusedTextColor = colorResource(R.color.color_text_secondary),
                 focusedContainerColor = colorResource(R.color.teal_50),
                 unfocusedContainerColor = colorResource(R.color.teal_50),
                 cursorColor = colorResource(R.color.teal_90),
-                focusedIndicatorColor = colorResource(R.color.white_100),
-                unfocusedIndicatorColor = colorResource(R.color.white_100),
+                focusedIndicatorColor = colorResource(R.color.color_text_secondary),
+                unfocusedIndicatorColor = colorResource(R.color.color_text_secondary),
             )
         )
 
