@@ -1,8 +1,12 @@
 package com.example.bmicalculator.ui.component.widget
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
@@ -26,13 +30,29 @@ fun ResultFieldCard(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
+        val cardModifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .border(
+                width = 1.dp,
+                color = colorResource(R.color.teal_100),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .background(
+                color = colorResource(R.color.teal_20),
+                shape = RoundedCornerShape(16.dp)
+            )
+            .padding(horizontal = 26.dp, vertical = 16.dp)
+
         UserData(
+            modifier = cardModifier,
             unitSystem = state.unitSystem,
             height = state.height,
             weight = state.weight
         )
 
         BmiIndicator(
+            modifier = cardModifier,
             bmiResult = state.bmiResult
         )
 

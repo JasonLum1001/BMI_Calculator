@@ -4,8 +4,10 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -48,8 +50,7 @@ fun BmiIndicator(
         Spacer(modifier = Modifier.height(12.dp))
 
         Box(
-            modifier = modifier,
-            contentAlignment = Alignment.BottomCenter
+            contentAlignment = Alignment.TopCenter
         ) {
             BmiGaugeView(
                 bmiValue = bmiResult.bmiValue
@@ -63,62 +64,25 @@ fun BmiIndicator(
 }
 
 @Composable
-private fun BmiResultView(
-    bmiResult: BmiResult
-) {
-    val bmiValue = bmiResult.bmiValue
-    val bmiCategory = when (bmiResult.bmiCategory) {
-        BmiCategory.UNDERWEIGHT -> stringResource(R.string.category_underweight)
-        BmiCategory.NORMAL -> stringResource(R.string.category_normal)
-        BmiCategory.OVERWEIGHT -> stringResource(R.string.category_overweight)
-        BmiCategory.OBESE_CLASS_1 -> stringResource(R.string.category_obese_class_1)
-        BmiCategory.OBESE_CLASS_2 -> stringResource(R.string.category_obese_class_2)
-        BmiCategory.OBESE_CLASS_3 -> stringResource(R.string.category_obese_class_3)
-    }
-
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(
-            text = "%.1f".format(bmiValue),
-            color = colorResource(R.color.teal_100),
-            style = MaterialTheme.typography.titleLarge,
-            fontWeight = FontWeight.Black,
-            fontSize = 60.sp
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Text(
-            text = bmiCategory,
-            color = colorResource(R.color.teal_100),
-            style = MaterialTheme.typography.titleMedium,
-            fontSize = 25.sp
-        )
-    }
-}
-
-@Composable
 private fun BmiGaugeView(bmiValue: Double) {
     val progress = ((bmiValue / 40.0).coerceIn(0.0, 1.0)).toFloat()
-    val gradientBrush = Brush.sweepGradient(
-        colorStops = arrayOf(
-            0.00f to colorResource(R.color.red_100),
-            0.37f to colorResource(R.color.blue_100),
-            0.62f to colorResource(R.color.blue_100),
-            0.78f to colorResource(R.color.green_100),
-            0.85f to colorResource(R.color.yellow_100),
-            0.91f to colorResource(R.color.red_100)
-        )
+    val gradientColor = arrayOf(
+        0.50f to colorResource(R.color.blue_100),
+        0.71f to colorResource(R.color.blue_100),
+        0.76f to colorResource(R.color.green_100),
+        0.77f to colorResource(R.color.green_100),
+        0.82f to colorResource(R.color.yellow_100),
+        0.85f to colorResource(R.color.yellow_100),
+        0.90f to colorResource(R.color.red_100),
+        1.00f to colorResource(R.color.red_100)
     )
 
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
-            .height(180.dp)
+            .aspectRatio(1.85f)
     ) {
-
-        val strokeWidth = 30.dp.toPx()
+        val strokeWidth = 20.dp.toPx()
 
         val arcSize = Size(
             width = size.width - strokeWidth,
@@ -128,6 +92,11 @@ private fun BmiGaugeView(bmiValue: Double) {
         val topLeft = Offset(
             x = strokeWidth / 2,
             y = strokeWidth / 2
+        )
+
+        val gradientBrush = Brush.sweepGradient(
+            colorStops = gradientColor,
+            center = Offset(x = size.width / 2f, y = size.height)
         )
 
         // Draw BMI range arc
@@ -164,7 +133,7 @@ private fun BmiGaugeView(bmiValue: Double) {
 
         drawCircle(
             color = Color.White,
-            radius = 12.dp.toPx(),
+            radius = 10.dp.toPx(),
             center = Offset(
                 indicatorX,
                 indicatorY
@@ -173,11 +142,46 @@ private fun BmiGaugeView(bmiValue: Double) {
 
         drawCircle(
             color = Color.Black,
-            radius = 7.dp.toPx(),
+            radius = 6.dp.toPx(),
             center = Offset(
                 indicatorX,
                 indicatorY
             )
+        )
+    }
+}
+
+@Composable
+private fun BmiResultView(
+    bmiResult: BmiResult
+) {
+    val bmiValue = bmiResult.bmiValue
+    val bmiCategory = when (bmiResult.bmiCategory) {
+        BmiCategory.UNDERWEIGHT -> stringResource(R.string.category_underweight)
+        BmiCategory.NORMAL -> stringResource(R.string.category_normal)
+        BmiCategory.OVERWEIGHT -> stringResource(R.string.category_overweight)
+        BmiCategory.OBESE_CLASS_1 -> stringResource(R.string.category_obese_class_1)
+        BmiCategory.OBESE_CLASS_2 -> stringResource(R.string.category_obese_class_2)
+        BmiCategory.OBESE_CLASS_3 -> stringResource(R.string.category_obese_class_3)
+    }
+
+    Column(
+        modifier = Modifier.padding(top = 80.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "%.1f".format(bmiValue),
+            color = colorResource(R.color.teal_100),
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Black,
+            fontSize = 60.sp
+        )
+
+        Text(
+            text = bmiCategory,
+            color = colorResource(R.color.teal_100),
+            style = MaterialTheme.typography.titleMedium,
+            fontSize = 25.sp
         )
     }
 }

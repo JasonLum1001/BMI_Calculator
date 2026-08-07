@@ -37,19 +37,7 @@ fun UserData(
     }
 
     Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp)
-            .border(
-                width = 1.dp,
-                color = colorResource(R.color.teal_100),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .background(
-                color = colorResource(R.color.teal_20),
-                shape = RoundedCornerShape(16.dp)
-            )
-            .padding(horizontal = 26.dp, vertical = 16.dp),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
