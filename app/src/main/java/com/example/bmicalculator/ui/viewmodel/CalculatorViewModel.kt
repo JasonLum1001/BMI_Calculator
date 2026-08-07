@@ -33,7 +33,7 @@ class CalculatorViewModel  @Inject constructor(): ViewModel() {
 
         val bmi = when (unitSystem) {
             BmiUnitSystem.METRIC -> weight / (height * height)
-            BmiUnitSystem.IMPERIAL -> weight * 703 / (height * height)
+            BmiUnitSystem.IMPERIAL -> (weight * 703) / (height * height)
         }
 
         val bmiResult = BmiResult(
