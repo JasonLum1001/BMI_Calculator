@@ -23,6 +23,6 @@
   </tr>
   <tr>
     <td><img width="270" height="585" alt="Input Screen" src="https://github.com/user-attachments/assets/8e366bfd-58b7-4118-bc4b-63a0df87b300" /></td>
-    <td><img width="270" height="585" alt="Result Screen" src="https://github.com/user-attachments/assets/5ebc9a16-a5fe-4394-8f99-727e677aafc4" /></td>
+    <td><img width="270" height="585" alt="Result Screen" src="https://github.com/user-attachments/assets/8e8ac179-99ae-449b-9cf9-02aac9be581c" /></td>
   </tr>
 </table>
