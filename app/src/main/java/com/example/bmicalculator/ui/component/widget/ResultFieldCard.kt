@@ -52,11 +52,6 @@ fun ResultFieldCard(
             bmiResult = state.bmiResult
         )
 
-        BmiCategoryGroup(
-            modifier = cardModifier,
-            bmiResult = state.bmiResult
-        )
-
         CommonPrimaryButton(
             text = stringResource(R.string.btn_retry),
             onClick = onReset

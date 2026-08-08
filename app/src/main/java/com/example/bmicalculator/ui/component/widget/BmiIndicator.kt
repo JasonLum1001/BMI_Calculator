@@ -60,6 +60,12 @@ fun BmiIndicator(
                 bmiResult = bmiResult
             )
         }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        BmiCategoryGroup(
+            bmiResult = bmiResult
+        )
     }
 }
 
